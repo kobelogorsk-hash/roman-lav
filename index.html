@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра - Открытие ящиков</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        /* Main Game Area */
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            position: relative;
+        }
+
+        .crate-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .crate {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(145deg, #f0932b, #eb4d4b);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(235, 77, 75, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .crate:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(235, 77, 75, 0.6);
+        }
+
+        .crate.opening {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .crate.opened {
+            animation: openCrate 0.5s ease-in-out forwards;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px) rotate(-5deg); }
+            75% { transform: translateX(10px) rotate(5deg); }
+        }
+
+        @keyframes openCrate {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .open-btn {
+            background: linear-gradient(145deg, #e94560, #c23a51);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.6);
+        }
+
+        .open-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .open-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Result Display */
+        .result-display {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(145deg, #2d3436, #1e272e);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            border: 3px solid #e94560;
+        }
+
+        .result-display.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .result-item {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: popIn 0.5s ease;
+        }
+
+        .result-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-rarity {
+            font-size: 1.2rem;
+            padding: 5px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .rarity-common { background: #95a5a6; color: #fff; }
+        .rarity-uncommon { background: #2ecc71; color: #fff; }
+        .rarity-rare { background: #3498db; color: #fff; }
+        .rarity-epic { background: #9b59b6; color: #fff; }
+        .rarity-legendary { background: #f39c12; color: #fff; }
+
+        .close-result {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-result:hover {
+            background: #c23a51;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Inventory Section */
+        .inventory-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .inventory-title {
+            font-size: 2rem;
+            color: #e94560;
+        }
+
+        .inventory-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .tab-btn.active {
+            background: #e94560;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .item-card.common { border-color: #95a5a6; }
+        .item-card.uncommon { border-color: #2ecc71; }
+        .item-card.rare { border-color: #3498db; }
+        .item-card.epic { border-color: #9b59b6; }
+        .item-card.legendary { border-color: #f39c12; }
+
+        .item-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .item-count {
+            background: rgba(0,0,0,0.3);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 1.2rem;
+            padding: 50px;
+        }
+
+        .crates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .crate-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .crate-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .crate-card-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .crate-card-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .open-crate-btn {
+            background: linear-gradient(145deg, #e94560, #c23a51);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .open-crate-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* Statistics */
+        .stats {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 CS:GO Case Simulator</h1>
+            <p class="subtitle">Открывай ящики и получай редкие скины!</p>
+        </header>
+
+        <!-- Main Game Area -->
+        <div class="game-area">
+            <div class="crate-container">
+                <div class="crate" id="mainCrate">📦</div>
+            </div>
+            <button class="open-btn" id="openBtn">Открыть</button>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalOpened">0</div>
+                <div class="stat-label">Открыто ящиков</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalItems">0</div>
+                <div class="stat-label">Всего предметов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="legendaryCount">0</div>
+                <div class="stat-label">Легендарных</div>
+            </div>
+        </div>
+
+        <!-- Inventory Section -->
+        <div class="inventory-section">
+            <div class="inventory-header">
+                <h2 class="inventory-title">🎒 Инвентарь</h2>
+            </div>
+
+            <div class="inventory-tabs">
+                <button class="tab-btn active" data-tab="skins">Скины</button>
+                <button class="tab-btn" data-tab="crates">Ящики</button>
+            </div>
+
+            <!-- Skins Tab -->
+            <div class="tab-content active" id="skins-tab">
+                <div class="items-grid" id="skinsGrid">
+                    <div class="empty-message">Пока нет скинов. Откройте ящик!</div>
+                </div>
+            </div>
+
+            <!-- Crates Tab -->
+            <div class="tab-content" id="crates-tab">
+                <div class="crates-grid" id="cratesGrid">
+                    <!-- Crates will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Display -->
+    <div class="overlay" id="overlay"></div>
+    <div class="result-display" id="resultDisplay">
+        <div class="result-item" id="resultIcon">🔫</div>
+        <div class="result-name" id="resultName">AK-47 | Redline</div>
+        <div class="result-rarity rarity-legendary" id="resultRarity">Легендарный</div>
+        <br>
+        <button class="close-result" id="closeResult">Забрать</button>
+    </div>
+
+    <script>
+        // Skin data with rarities and drop rates
+        const skins = [
+            // Common (50% chance)
+            { name: "P250 | Sand Dune", icon: "🔫", rarity: "common", weight: 50 },
+            { name: "MP9 | Storm", icon: "🔫", rarity: "common", weight: 50 },
+            { name: "SCAR-20 | Sand Mesh", icon: "🔫", rarity: "common", weight: 50 },
+            { name: "MAG-7 | Storm", icon: "🔫", rarity: "common", weight: 50 },
+            
+            // Uncommon (25% chance)
+            { name: "Glock-18 | Blue Fissure", icon: "🔫", rarity: "uncommon", weight: 25 },
+            { name: "USP-S | Guardian", icon: "🔫", rarity: "uncommon", weight: 25 },
+            { name: "M4A4 | Desert Storm", icon: "🔫", rarity: "uncommon", weight: 25 },
+            { name: "AWP | Safari Mesh", icon: "🔫", rarity: "uncommon", weight: 25 },
+            
+            // Rare (15% chance)
+            { name: "AK-47 | Redline", icon: "🔫", rarity: "rare", weight: 15 },
+            { name: "M4A1-S | Cyrex", icon: "🔫", rarity: "rare", weight: 15 },
+            { name: "Desert Eagle | Code Red", icon: "🔫", rarity: "rare", weight: 15 },
+            { name: "USP-S | Orion", icon: "🔫", rarity: "rare", weight: 15 },
+            
+            // Epic (8% chance)
+            { name: "AK-47 | Vulcan", icon: "🔫", rarity: "epic", weight: 8 },
+            { name: "M4A4 | Howl", icon: "🔫", rarity: "epic", weight: 8 },
+            { name: "AWP | Asiimov", icon: "🔫", rarity: "epic", weight: 8 },
+            { name: "Desert Eagle | Blaze", icon: "🔫", rarity: "epic", weight: 8 },
+            
+            // Legendary (2% chance)
+            { name: "Karambit | Fade", icon: "🔪", rarity: "legendary", weight: 2 },
+            { name: "Butterfly Knife | Doppler", icon: "🔪", rarity: "legendary", weight: 2 },
+            { name: "M9 Bayonet | Lore", icon: "🔪", rarity: "legendary", weight: 2 },
+            { name: "AWP | Dragon Lore", icon: "🐉", rarity: "legendary", weight: 2 }
+        ];
+
+        // Crate types
+        const crates = [
+            { name: "Обычный ящик", icon: "📦", type: "common" },
+            { name: "Редкий ящик", icon: "🎁", type: "rare" },
+            { name: "Эпический ящик", icon: "💎", type: "epic" },
+            { name: "Легендарный ящик", icon: "👑", type: "legendary" }
+        ];
+
+        // Game state
+        let inventory = {
+            skins: {},
+            crates: {
+                common: 5,
+                rare: 2,
+                epic: 1,
+                legendary: 0
+            }
+        };
+
+        let stats = {
+            totalOpened: 0,
+            totalItems: 0,
+            legendaryCount: 0
+        };
+
+        let isAnimating = false;
+
+        // DOM Elements
+        const mainCrate = document.getElementById('mainCrate');
+        const openBtn = document.getElementById('openBtn');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const overlay = document.getElementById('overlay');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultName = document.getElementById('resultName');
+        const resultRarity = document.getElementById('resultRarity');
+        const closeResult = document.getElementById('closeResult');
+        const skinsGrid = document.getElementById('skinsGrid');
+        const cratesGrid = document.getElementById('cratesGrid');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Weighted random selection
+        function getRandomSkin() {
+            const totalWeight = skins.reduce((sum, skin) => sum + skin.weight, 0);
+            let random = Math.random() * totalWeight;
+            
+            for (const skin of skins) {
+                if (random < skin.weight) {
+                    return skin;
+                }
+                random -= skin.weight;
+            }
+            return skins[0];
+        }
+
+        // Get rarity name in Russian
+        function getRarityName(rarity) {
+            const names = {
+                common: "Обычный",
+                uncommon: "Необычный",
+                rare: "Редкий",
+                epic: "Эпический",
+                legendary: "Легендарный"
+            };
+            return names[rarity] || rarity;
+        }
+
+        // Open crate animation
+        function openCrate() {
+            if (isAnimating) return;
+            
+            // Check if we have any crates
+            const availableCrates = Object.entries(inventory.crates).find(([type, count]) => count > 0);
+            if (!availableCrates) {
+                alert("У вас нет ящиков! Они появятся в инвентаре.");
+                return;
+            }
+
+            isAnimating = true;
+            openBtn.disabled = true;
+
+            // Use the first available crate type
+            const crateType = availableCrates[0];
+            inventory.crates[crateType]--;
+
+            // Animation
+            mainCrate.classList.add('opening');
+            
+            setTimeout(() => {
+                mainCrate.classList.remove('opening');
+                mainCrate.classList.add('opened');
+                
+                setTimeout(() => {
+                    const skin = getRandomSkin();
+                    showResult(skin);
+                    
+                    // Reset crate
+                    setTimeout(() => {
+                        mainCrate.classList.remove('opened');
+                        isAnimating = false;
+                        openBtn.disabled = false;
+                        updateInventory();
+                        updateStats();
+                    }, 500);
+                }, 500);
+            }, 500);
+        }
+
+        // Show result
+        function showResult(skin) {
+            resultIcon.textContent = skin.icon;
+            resultName.textContent = skin.name;
+            resultRarity.textContent = getRarityName(skin.rarity);
+            resultRarity.className = `result-rarity rarity-${skin.rarity}`;
+            
+            // Add to inventory
+            if (!inventory.skins[skin.name]) {
+                inventory.skins[skin.name] = { ...skin, count: 0 };
+            }
+            inventory.skins[skin.name].count++;
+            
+            stats.totalOpened++;
+            stats.totalItems++;
+            if (skin.rarity === 'legendary') {
+                stats.legendaryCount++;
+            }
+
+            overlay.classList.add('show');
+            resultDisplay.classList.add('show');
+        }
+
+        // Close result
+        function closeResultDisplay() {
+            overlay.classList.remove('show');
+            resultDisplay.classList.remove('show');
+            updateInventory();
+        }
+
+        // Update inventory display
+        function updateInventory() {
+            // Update skins grid
+            const skinEntries = Object.entries(inventory.skins);
+            if (skinEntries.length === 0) {
+                skinsGrid.innerHTML = '<div class="empty-message">Пока нет скинов. Откройте ящик!</div>';
+            } else {
+                skinsGrid.innerHTML = skinEntries.map(([name, data]) => `
+                    <div class="item-card ${data.rarity}">
+                        <div class="item-icon">${data.icon}</div>
+                        <div class="item-name">${name}</div>
+                        <div class="item-count">x${data.count}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Update crates grid
+            cratesGrid.innerHTML = Object.entries(inventory.crates).map(([type, count]) => {
+                const crate = crates.find(c => c.type === type);
+                return `
+                    <div class="crate-card">
+                        <div class="crate-card-icon">${crate.icon}</div>
+                        <div class="crate-card-name">${crate.name}</div>
+                        <div class="item-count">x${count}</div>
+                        <button class="open-crate-btn" onclick="selectCrate('${type}')">Выбрать</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Select crate type
+        function selectCrate(type) {
+            if (inventory.crates[type] > 0) {
+                // Just visual feedback - the main open button will use this crate
+                alert(`Выбран ${crates.find(c => c.type === type).name}. Нажмите "Открыть" чтобы открыть!`);
+            }
+        }
+
+        // Update stats display
+        function updateStats() {
+            document.getElementById('totalOpened').textContent = stats.totalOpened;
+            document.getElementById('totalItems').textContent = stats.totalItems;
+            document.getElementById('legendaryCount').textContent = stats.legendaryCount;
+        }
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Event listeners
+        openBtn.addEventListener('click', openCrate);
+        mainCrate.addEventListener('click', openCrate);
+        closeResult.addEventListener('click', closeResultDisplay);
+        overlay.addEventListener('click', closeResultDisplay);
+
+        // Initialize
+        updateInventory();
+        updateStats();
+    </script>
+</body>
+</html>
