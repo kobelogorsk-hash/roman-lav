@@ -12,10 +12,25 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             color: #fff;
             overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(100, 200, 255, 0.2) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
         }
         .container {
             max-width: 1200px;
@@ -43,8 +58,12 @@
             align-items: center;
             margin-bottom: 20px;
             padding: 15px 25px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
         }
         .balance-display {
             display: flex;
@@ -76,9 +95,11 @@
             font-size: 1.2rem;
         }
         .buy-crates-btn {
-            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            background: rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: white;
-            border: none;
+            border: 1px solid rgba(46, 204, 113, 0.5);
             padding: 10px 20px;
             border-radius: 10px;
             cursor: pointer;
@@ -88,6 +109,7 @@
         .buy-crates-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+            background: rgba(46, 204, 113, 0.5);
         }
         /* Main Game Area */
         .game-area {
@@ -106,7 +128,9 @@
         .crate {
             width: 200px;
             height: 200px;
-            background: linear-gradient(145deg, #f0932b, #eb4d4b);
+            background: rgba(240, 147, 43, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             display: flex;
             align-items: center;
@@ -116,10 +140,12 @@
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(235, 77, 75, 0.4);
             animation: float 3s ease-in-out infinite;
+            border: 1px solid rgba(240, 147, 43, 0.5);
         }
         .crate:hover {
             transform: scale(1.05);
             box-shadow: 0 15px 40px rgba(235, 77, 75, 0.6);
+            background: rgba(240, 147, 43, 0.5);
         }
         .crate.opening {
             animation: shake 0.5s ease-in-out;
@@ -132,12 +158,16 @@
             width: 100%;
             max-width: 800px;
             height: 120px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-radius: 15px;
             overflow: hidden;
             position: relative;
             margin: 20px auto;
             display: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
         }
         .roulette-container.active {
             display: block;
@@ -151,19 +181,22 @@
             transition: transform 4s cubic-bezier(0.1, 0.9, 0.3, 1);
         }
         .roulette-strip.spinning {
-            filter: blur(8px);
+            filter: blur(0px);
         }
         .roulette-item {
             width: 100px;
             height: 100px;
             margin: 10px 5px;
             background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             border-bottom: 4px solid #95a5a6;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .roulette-item.common { border-color: #95a5a6; }
         .roulette-item.uncommon { border-color: #2ecc71; }
@@ -171,7 +204,9 @@
         .roulette-item.epic { border-color: #9b59b6; }
         .roulette-item.legendary { border-color: #f39c12; }
         .roulette-item-icon {
-            font-size: 40px;
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
         }
         .roulette-item-name {
             font-size: 10px;
@@ -207,9 +242,11 @@
             100% { transform: scale(0); opacity: 0; }
         }
         .open-btn {
-            background: linear-gradient(145deg, #e94560, #c23a51);
+            background: rgba(233, 69, 96, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: white;
-            border: none;
+            border: 1px solid rgba(233, 69, 96, 0.5);
             padding: 15px 50px;
             font-size: 1.3rem;
             border-radius: 50px;
@@ -223,6 +260,7 @@
         .open-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(233, 69, 96, 0.6);
+            background: rgba(233, 69, 96, 0.5);
         }
         .open-btn:active {
             transform: translateY(-1px);
@@ -239,14 +277,16 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(145deg, #2d3436, #1e272e);
+            background: rgba(45, 52, 54, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             padding: 40px;
             border-radius: 20px;
             text-align: center;
             z-index: 1000;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             transition: all 0.4s ease;
-            border: 3px solid #e94560;
+            border: 2px solid rgba(233, 69, 96, 0.5);
         }
         .result-display.show {
             transform: translate(-50%, -50%) scale(1);
@@ -299,10 +339,14 @@
         }
         /* Inventory Section */
         .inventory-section {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 30px;
             margin-top: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
         }
         .inventory-header {
             display: flex;
@@ -320,9 +364,11 @@
             margin-bottom: 20px;
         }
         .tab-btn {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             color: white;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 12px 25px;
             border-radius: 10px;
             cursor: pointer;
@@ -330,10 +376,13 @@
             font-size: 1rem;
         }
         .tab-btn:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
         }
         .tab-btn.active {
-            background: #e94560;
+            background: rgba(233, 69, 96, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-color: rgba(233, 69, 96, 0.8);
         }
         .tab-content {
             display: none;
@@ -347,7 +396,9 @@
             gap: 20px;
         }
         .item-card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-radius: 15px;
             padding: 20px;
             text-align: center;
@@ -357,7 +408,7 @@
         }
         .item-card:hover {
             transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
         .item-card.common { border-color: #95a5a6; }
         .item-card.uncommon { border-color: #2ecc71; }
@@ -365,7 +416,9 @@
         .item-card.epic { border-color: #9b59b6; }
         .item-card.legendary { border-color: #f39c12; }
         .item-icon {
-            font-size: 60px;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
             margin-bottom: 15px;
         }
         .item-name {
@@ -379,9 +432,11 @@
             margin-bottom: 10px;
         }
         .sell-btn {
-            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            background: rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             color: white;
-            border: none;
+            border: 1px solid rgba(46, 204, 113, 0.5);
             padding: 8px 20px;
             border-radius: 15px;
             cursor: pointer;
@@ -390,6 +445,7 @@
         }
         .sell-btn:hover {
             transform: scale(1.05);
+            background: rgba(46, 204, 113, 0.5);
         }
         .empty-message {
             text-align: center;
@@ -403,18 +459,23 @@
             gap: 20px;
         }
         .crate-card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-radius: 15px;
             padding: 30px;
             text-align: center;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .crate-card:hover {
             transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
         .crate-card-icon {
-            font-size: 80px;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
             margin-bottom: 20px;
         }
         .crate-card-name {
@@ -428,9 +489,11 @@
             margin-bottom: 15px;
         }
         .open-crate-btn {
-            background: linear-gradient(145deg, #e94560, #c23a51);
+            background: rgba(233, 69, 96, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             color: white;
-            border: none;
+            border: 1px solid rgba(233, 69, 96, 0.5);
             padding: 12px 30px;
             border-radius: 25px;
             cursor: pointer;
@@ -439,9 +502,12 @@
         }
         .open-crate-btn:hover {
             transform: scale(1.05);
+            background: rgba(233, 69, 96, 0.5);
         }
         .open-crate-btn:disabled {
-            background: #666;
+            background: rgba(102, 102, 102, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             cursor: not-allowed;
             transform: none;
         }
@@ -467,10 +533,13 @@
             flex-wrap: wrap;
         }
         .stat-item {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 15px 25px;
             border-radius: 10px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .stat-value {
             font-size: 2rem;
@@ -486,11 +555,14 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: linear-gradient(145deg, #2ecc71, #27ae60);
+            background: rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: white;
             padding: 15px 25px;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+            border: 1px solid rgba(46, 204, 113, 0.5);
             transform: translateX(400px);
             transition: transform 0.5s ease;
             z-index: 2000;
@@ -582,40 +654,40 @@
         🎁 Вам начислено <span id="notifCount">2</span> кейса(ов)!
     </div>
     <script>
-        // Skin data with rarities, drop rates, and prices
+        // Skin data with rarities, drop rates, and prices - using high quality images
         const gameSkins = [
             // Common (70% chance) - Cheap
-            { name: "P250 | Песчаная дюна", icon: "🔫", rarity: "common", weight: 70, price: 15 },
-            { name: "MP9 | Шторм", icon: "🔫", rarity: "common", weight: 70, price: 18 },
-            { name: "SCAR-20 | Песочная сетка", icon: "🔫", rarity: "common", weight: 70, price: 12 },
+            { name: "P250 | Песчаная дюна", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/p250_sand_dune.svg", rarity: "common", weight: 70, price: 15 },
+            { name: "MP9 | Шторм", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/mp9_storm.svg", rarity: "common", weight: 70, price: 18 },
+            { name: "SCAR-20 | Песочная сетка", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/scar20_sandmesh.svg", rarity: "common", weight: 70, price: 12 },
             
             // Uncommon 
-            { name: "Glock-18 | Вода", icon: "🔫", rarity: "uncommon", weight: 40, price: 50 },
-            { name: "SSG 08 | Контур", icon: "🔫", rarity: "uncommon", weight: 40, price: 45 },
+            { name: "Glock-18 | Вода", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/glock_hydro.svg", rarity: "uncommon", weight: 40, price: 50 },
+            { name: "SSG 08 | Контур", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/ssg08_slashed.svg", rarity: "uncommon", weight: 40, price: 45 },
             
             // Rare (20% chance) - Medium price
-            { name: "AK-47 | Красная линия", icon: "🔫", rarity: "rare", weight: 20, price: 150 },
-            { name: "M4A4 | Азимов", icon: "🔫", rarity: "rare", weight: 20, price: 180 },
-            { name: "AWP | Электрический ультра", icon: "🔫", rarity: "rare", weight: 20, price: 120 },
-            { name: "USP-S | Коррозия", icon: "🔫", rarity: "rare", weight: 20, price: 140 },
+            { name: "AK-47 | Красная линия", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/ak47_redline.svg", rarity: "rare", weight: 20, price: 150 },
+            { name: "M4A4 | Азимов", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/m4a1_asimov.svg", rarity: "rare", weight: 20, price: 180 },
+            { name: "AWP | Электрический ультра", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/awp_hyper_beast.svg", rarity: "rare", weight: 20, price: 120 },
+            { name: "USP-S | Коррозия", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/usps_cortex.svg", rarity: "rare", weight: 20, price: 140 },
             
             // Epic - High price
-            { name: "Desert Eagle | Пламя", icon: "🔫", rarity: "epic", weight: 15, price: 500 },
-            { name: "M4A1-S | Чистота", icon: "🔫", rarity: "epic", weight: 15, price: 600 },
-            { name: "Glock-18 | Гамма-волны", icon: "🔫", rarity: "epic", weight: 15, price: 550 },
+            { name: "Desert Eagle | Пламя", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/deagle_blaze.svg", rarity: "epic", weight: 15, price: 500 },
+            { name: "M4A1-S | Чистота", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/m4a1_printstream.svg", rarity: "epic", weight: 15, price: 600 },
+            { name: "Glock-18 | Гамма-волны", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/glock_gamma.svg", rarity: "epic", weight: 15, price: 550 },
             
             // Legendary (10% chance) - Expensive
-            { name: "Karambit | Градиент", icon: "🔪", rarity: "legendary", weight: 10, price: 1500 },
-            { name: "M9 Bayonet | Лоре", icon: "🔪", rarity: "legendary", weight: 10, price: 2000 },
-            { name: "AK-47 | Огонь и вода", icon: "🔫", rarity: "legendary", weight: 10, price: 1200 },
-            { name: "AWP | Драконий стиль", icon: "🐉", rarity: "legendary", weight: 10, price: 2500 }
+            { name: "Karambit | Градиент", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/knife_karambit_gradient.svg", rarity: "legendary", weight: 10, price: 1500 },
+            { name: "M9 Bayonet | Лоре", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/knife_m9_bayonet_lore.svg", rarity: "legendary", weight: 10, price: 2000 },
+            { name: "AK-47 | Огонь и вода", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/ak47_fire_serum.svg", rarity: "legendary", weight: 10, price: 1200 },
+            { name: "AWP | Драконий стиль", icon: "https://cdn.akamai.steamstatic.com/apps/csgo/images/weapons/awp_dragon_lore.svg", rarity: "legendary", weight: 10, price: 2500 }
         ];
-        // Crate types
+        // Crate types with images
         const crateTypes = [
-            { name: "Обычный кейс", icon: "📦", type: "common" },
-            { name: "Редкий кейс", icon: "🎁", type: "rare" },
-            { name: "Эпический кейс", icon: "💎", type: "epic" },
-            { name: "Легендарный кейс", icon: "👑", type: "legendary" }
+            { name: "Обычный кейс", icon: "https://cdn-icons-png.flaticon.com/512/6823/6823878.png", type: "common" },
+            { name: "Редкий кейс", icon: "https://cdn-icons-png.flaticon.com/512/6823/6823901.png", type: "rare" },
+            { name: "Эпический кейс", icon: "https://cdn-icons-png.flaticon.com/512/6823/6823927.png", type: "epic" },
+            { name: "Легендарный кейс", icon: "https://cdn-icons-png.flaticon.com/512/6823/6823954.png", type: "legendary" }
         ];
         // Game state
         let balance = 1000;
