@@ -150,6 +150,9 @@
             transform: translateX(0);
             transition: transform 4s cubic-bezier(0.1, 0.9, 0.3, 1);
         }
+        .roulette-strip.spinning {
+            filter: blur(8px);
+        }
         .roulette-item {
             width: 100px;
             height: 100px;
@@ -832,12 +835,17 @@
             // Force reflow to ensure transition works
             rouletteStrip.offsetHeight;
             
+            // Add blur effect for spinning motion
+            rouletteStrip.classList.add('spinning');
+            
             // Animate
             rouletteStrip.style.transition = 'transform 4s cubic-bezier(0.1, 0.9, 0.3, 1)';
             rouletteStrip.style.transform = `translateX(${targetPosition}px)`;
             
             // Wait for animation to complete
             setTimeout(() => {
+                // Remove blur when spinning stops
+                rouletteStrip.classList.remove('spinning');
                 callback();
             }, 4000);
         }
