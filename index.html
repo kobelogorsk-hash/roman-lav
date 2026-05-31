@@ -127,801 +127,67 @@
         .crate.opened {
             animation: openCrate 0.5s ease-in-out forwards;
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px) rotate(-5deg); }
-            75% { transform: translateX(10px) rotate(5deg); }
-        }
-        @keyframes openCrate {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-        .open-btn {
-            background: linear-gradient(145deg, #e94560, #c23a51);
-            color: white;
-            border: none;
-            padding: 15px 50px;
-            font-size: 1.3rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-        .open-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.6);
-        }
-        .open-btn:active {
-            transform: translateY(-1px);
-        }
-        .open-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        /* Result Display */
-        .result-display {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(145deg, #2d3436, #1e272e);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            z-index: 1000;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
-            border: 3px solid #e94560;
-        }
-        .result-display.show {
-            transform: translate(-50%, -50%) scale(1);
-        }
-        .result-item {
-            font-size: 100px;
-            margin-bottom: 20px;
-            animation: popIn 0.5s ease;
-        }
-        .result-name {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .result-rarity {
-            font-size: 1.2rem;
-            padding: 5px 20px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        .rarity-common { background: #95a5a6; color: #fff; }
-        .rarity-uncommon { background: #2ecc71; color: #fff; }
-        .rarity-rare { background: #3498db; color: #fff; }
-        .rarity-epic { background: #9b59b6; color: #fff; }
-        .rarity-legendary { background: #f39c12; color: #fff; }
-        .result-price {
-            font-size: 1.5rem;
-            color: #2ecc71;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        .close-result {
-            background: #e94560;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        .close-result:hover {
-            background: #c23a51;
-        }
-        @keyframes popIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        /* Inventory Section */
-        .inventory-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 50px;
-        }
-        .inventory-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        .inventory-title {
-            font-size: 2rem;
-            color: #e94560;
-        }
-        .inventory-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-        .tab-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .tab-btn.active {
-            background: #e94560;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .item-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .item-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
-        }
-        .item-card.common { border-color: #95a5a6; }
-        .item-card.uncommon { border-color: #2ecc71; }
-        .item-card.rare { border-color: #3498db; }
-        .item-card.epic { border-color: #9b59b6; }
-        .item-card.legendary { border-color: #f39c12; }
-        .item-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-        .item-name {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .item-price {
-            color: #2ecc71;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .sell-btn {
-            background: linear-gradient(145deg, #2ecc71, #27ae60);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        .sell-btn:hover {
-            transform: scale(1.05);
-        }
-        .empty-message {
-            text-align: center;
-            color: #a0a0a0;
-            font-size: 1.2rem;
-            padding: 50px;
-        }
-        .crates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .crate-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .crate-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
-        }
-        .crate-card-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        .crate-card-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .crate-card-count {
-            font-size: 1.1rem;
-            color: #a0a0a0;
-            margin-bottom: 15px;
-        }
-        .open-crate-btn {
-            background: linear-gradient(145deg, #e94560, #c23a51);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        .open-crate-btn:hover {
-            transform: scale(1.05);
-        }
-        .open-crate-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Roulette/Scrolling Animation Styles */
+        .roulette-container {
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 999;
+            max-width: 800px;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto;
             display: none;
         }
-        .overlay.show {
+        .roulette-container.active {
             display: block;
         }
-        /* Statistics */
-        .stats {
+        .roulette-strip {
             display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform 4s cubic-bezier(0.1, 0.9, 0.3, 1);
         }
-        .stat-item {
-            background: rgba(255,255,255,0.1);
-            padding: 15px 25px;
+        .roulette-item {
+            min-width: 100px;
+            height: 100px;
+            margin: 10px 5px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e94560;
-        }
-        .stat-label {
-            font-size: 0.9rem;
-            color: #a0a0a0;
-        }
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(145deg, #2ecc71, #27ae60);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
-            transform: translateX(400px);
-            transition: transform 0.5s ease;
-            z-index: 2000;
-        }
-        .notification.show {
-            transform: translateX(0);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🎮 CS:GO Case Simulator</h1>
-            <p class="subtitle">Открывай ящики и получай редкие скины!</p>
-        </header>
-        <!-- Game Info: Balance and Crates -->
-        <div class="game-info">
-            <div class="balance-display">
-                <span class="balance-icon">💰</span>
-                <span class="balance-amount" id="balanceAmount">1000$</span>
-            </div>
-            <div class="crates-display">
-                <div class="crate-count">📦 Кейсы: <span id="totalCrates">8</span></div>
-                <button class="buy-crates-btn" id="buyCratesBtn">Купить кейс (100$)</button>
-            </div>
-        </div>
-        <!-- Main Game Area -->
-        <div class="game-area">
-            <div class="crate-container">
-                <div class="crate" id="mainCrate">📦</div>
-            </div>
-            <button class="open-btn" id="openBtn">Открыть</button>
-        </div>
-        <!-- Statistics -->
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="totalOpened">0</div>
-                <div class="stat-label">Открыто ящиков</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="totalItems">0</div>
-                <div class="stat-label">Всего предметов</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="legendaryCount">0</div>
-                <div class="stat-label">Легендарных</div>
-            </div>
-        </div>
-        <!-- Inventory Section -->
-        <div class="inventory-section">
-            <div class="inventory-header">
-                <h2 class="inventory-title">🎒 Инвентарь</h2>
-            </div>
-            <div class="inventory-tabs">
-                <button class="tab-btn active" data-tab="skins">Скины</button>
-                <button class="tab-btn" data-tab="crates">Ящики</button>
-            </div>
-            <!-- Skins Tab -->
-            <div class="tab-content active" id="skins-tab">
-                <div class="items-grid" id="skinsGrid">
-                    <div class="empty-message">Пока нет скинов. Откройте ящик!</div>
-                </div>
-            </div>
-            <!-- Crates Tab -->
-            <div class="tab-content" id="crates-tab">
-                <div class="crates-grid" id="cratesGrid">
-                    <!-- Crates will be populated here -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Result Display -->
-    <div class="overlay" id="overlay"></div>
-    <div class="result-display" id="resultDisplay">
-        <div class="result-item" id="resultIcon">🔫</div>
-        <div class="result-name" id="resultName">AK-47 | Redline</div>
-        <div class="result-rarity rarity-legendary" id="resultRarity">Легендарный</div>
-        <div class="result-price" id="resultPrice">1500$</div>
-        <br>
-        <button class="close-result" id="closeResult">Забрать</button>
-    </div>
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        🎁 Вам начислено <span id="notifCount">2</span> кейса(ов)!
-    </div>
-    <script>
-        // Skin data with rarities, drop rates, and prices
-        const gameSkins = [
-            // Common (70% chance) - Cheap
-            { name: "P250 | Песчаная дюна", icon: "🔫", rarity: "common", weight: 70, price: 15 },
-            { name: "MP9 | Шторм", icon: "🔫", rarity: "common", weight: 70, price: 18 },
-            { name: "SCAR-20 | Песочная сетка", icon: "🔫", rarity: "common", weight: 70, price: 12 },
-            
-            // Rare (20% chance) - Medium price
-            { name: "AK-47 | Красная линия", icon: "🔫", rarity: "rare", weight: 20, price: 150 },
-            { name: "M4A4 | Азимов", icon: "🔫", rarity: "rare", weight: 20, price: 180 },
-            { name: "AWP | Электрический ультра", icon: "🔫", rarity: "rare", weight: 20, price: 120 },
-            { name: "USP-S | Коррозия", icon: "🔫", rarity: "rare", weight: 20, price: 140 },
-            
-            // Legendary (10% chance) - Expensive
-            { name: "Karambit | Градиент", icon: "🔪", rarity: "legendary", weight: 10, price: 1500 },
-            { name: "M9 Bayonet | Лоре", icon: "🔪", rarity: "legendary", weight: 10, price: 2000 },
-            { name: "AK-47 | Огонь и вода", icon: "🔫", rarity: "legendary", weight: 10, price: 1200 },
-            { name: "AWP | Драконий стиль", icon: "🐉", rarity: "legendary", weight: 10, price: 2500 }
-        ];
-        // Crate types
-        const crateTypes = [
-            { name: "Обычный кейс", icon: "📦", type: "common" },
-            { name: "Редкий кейс", icon: "🎁", type: "rare" },
-            { name: "Эпический кейс", icon: "💎", type: "epic" },
-            { name: "Легендарный кейс", icon: "👑", type: "legendary" }
-        ];
-        // Game state
-        let balance = 1000;
-        let inventorySkins = [];
-        let inventoryCrates = {
-            common: 5,
-            rare: 2,
-            epic: 1,
-            legendary: 0
-        };
-        let stats = {
-            totalOpened: 0,
-            totalItems: 0,
-            legendaryCount: 0
-        };
-        let isAnimating = false;
-        // DOM Elements
-        const mainCrate = document.getElementById('mainCrate');
-        const openBtn = document.getElementById('openBtn');
-        const resultDisplay = document.getElementById('resultDisplay');
-        const overlay = document.getElementById('overlay');
-        const resultIcon = document.getElementById('resultIcon');
-        const resultName = document.getElementById('resultName');
-        const resultRarity = document.getElementById('resultRarity');
-        const resultPrice = document.getElementById('resultPrice');
-        const closeResult = document.getElementById('closeResult');
-        const skinsGrid = document.getElementById('skinsGrid');
-        const cratesGrid = document.getElementById('cratesGrid');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const balanceAmount = document.getElementById('balanceAmount');
-        const totalCrates = document.getElementById('totalCrates');
-        const buyCratesBtn = document.getElementById('buyCratesBtn');
-        const notification = document.getElementById('notification');
-        const notifCount = document.getElementById('notifCount');
-        // Get total crates count
-        function getTotalCrates() {
-            return Object.values(inventoryCrates).reduce((sum, count) => sum + count, 0);
-        }
-        // Update UI displays
-        function updateUI() {
-            balanceAmount.textContent = balance + '$';
-            totalCrates.textContent = getTotalCrates();
-            
-            // Disable open button if no crates
-            openBtn.disabled = getTotalCrates() === 0 || isAnimating;
-            
-            // Update stats
-            document.getElementById('totalOpened').textContent = stats.totalOpened;
-            document.getElementById('totalItems').textContent = stats.totalItems;
-            document.getElementById('legendaryCount').textContent = stats.legendaryCount;
-        }
-        // Weighted random selection
-        function getRandomSkin() {
-            const totalWeight = gameSkins.reduce((sum, skin) => sum + skin.weight, 0);
-            let random = Math.random() * totalWeight;
-            
-            for (const skin of gameSkins) {
-                if (random < skin.weight) {
-                    return skin;
-                }
-                random -= skin.weight;
-            }
-            return gameSkins[0];
-        }
-        // Get random crate type to add
-        function getRandomCrateType() {
-            const rand = Math.random();
-            if (rand < 0.5) return 'common';
-            if (rand < 0.8) return 'rare';
-            if (rand < 0.95) return 'epic';
-            return 'legendary';
-        }
-        // Open crate animation and logic
-        function openCrate() {
-            if (isAnimating || getTotalCrates() === 0) return;
-            
-            // Find first available crate type
-            let crateType = null;
-            for (const type of ['common', 'rare', 'epic', 'legendary']) {
-                if (inventoryCrates[type] > 0) {
-                    crateType = type;
-                    break;
-                }
-            }
-            
-            if (!crateType) return;
-            
-            // Decrease crate count
-            inventoryCrates[crateType]--;
-            isAnimating = true;
-            updateUI();
-            renderCrates();
-            
-            // Animation
-            mainCrate.classList.add('opening');
-            
-            setTimeout(() => {
-                mainCrate.classList.remove('opening');
-                mainCrate.classList.add('opened');
-                
-                // Get random skin
-                const skin = getRandomSkin();
-                
-                // Add to inventory
-                inventorySkins.push(skin);
-                stats.totalOpened++;
-                stats.totalItems++;
-                if (skin.rarity === 'legendary') {
-                    stats.legendaryCount++;
-                }
-                
-                // Show result
-                setTimeout(() => {
-                    showResult(skin);
-                    mainCrate.classList.remove('opened');
-                    isAnimating = false;
-                    updateUI();
-                    renderSkins();
-                }, 500);
-            }, 2000);
-        }
-        // Show result modal
-        function showResult(skin) {
-            resultIcon.textContent = skin.icon;
-            resultName.textContent = skin.name;
-            resultRarity.textContent = getRarityName(skin.rarity);
-            resultRarity.className = 'result-rarity rarity-' + skin.rarity;
-            resultPrice.textContent = skin.price + '$';
-            
-            resultDisplay.classList.add('show');
-            overlay.classList.add('show');
-        }
-        // Get rarity name in Russian
-        function getRarityName(rarity) {
-            const names = {
-                common: 'Обычный',
-                uncommon: 'Необычный',
-                rare: 'Редкий',
-                epic: 'Эпический',
-                legendary: 'Легендарный'
-            };
-            return names[rarity] || rarity;
-        }
-        // Close result modal
-        function closeResultModal() {
-            resultDisplay.classList.remove('show');
-            overlay.classList.remove('show');
-        }
-        // Render skins in inventory
-        function renderSkins() {
-            if (inventorySkins.length === 0) {
-                skinsGrid.innerHTML = '<div class="empty-message">Пока нет скинов. Откройте ящик!</div>';
-                return;
-            }
-            
-            skinsGrid.innerHTML = '';
-            inventorySkins.forEach((skin, index) => {
-                const card = document.createElement('div');
-                card.className = 'item-card ' + skin.rarity;
-                card.innerHTML = `
-                    <div class="item-icon">${skin.icon}</div>
-                    <div class="item-name">${skin.name}</div>
-                    <div class="item-price">${skin.price}$</div>
-                    <div class="result-rarity rarity-${skin.rarity}">${getRarityName(skin.rarity)}</div>
-                    <button class="sell-btn" onclick="sellSkin(${index})">Продать</button>
-                `;
-                skinsGrid.appendChild(card);
-            });
-        }
-        // Sell skin
-        function sellSkin(index) {
-            const skin = inventorySkins[index];
-            balance += skin.price;
-            inventorySkins.splice(index, 1);
-            updateUI();
-            renderSkins();
-        }
-        // Render crates in inventory
-        function renderCrates() {
-            cratesGrid.innerHTML = '';
-            let hasCrates = false;
-            
-            crateTypes.forEach(crate => {
-                const count = inventoryCrates[crate.type];
-                if (count > 0) {
-                    hasCrates = true;
-                    const card = document.createElement('div');
-                    card.className = 'crate-card';
-                    card.innerHTML = `
-                        <div class="crate-card-icon">${crate.icon}</div>
-                        <div class="crate-card-name">${crate.name}</div>
-                        <div class="crate-card-count">Количество: ${count}</div>
-                        <button class="open-crate-btn" onclick="openCrate()">Открыть</button>
-                    `;
-                    cratesGrid.appendChild(card);
-                }
-            });
-            
-            if (!hasCrates) {
-                cratesGrid.innerHTML = '<div class="empty-message">Нет ящиков. Купите или дождитесь пополнения!</div>';
-            }
-        }
-        // Tab switching
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab + '-tab').classList.add('active');
-            });
-        });
-        // Buy crates
-        buyCratesBtn.addEventListener('click', () => {
-            if (balance >= 100) {
-                balance -= 100;
-                inventoryCrates.common++;
-                updateUI();
-                renderCrates();
-            } else {
-                alert('Недостаточно денег! Нужно 100$');
-            }
-        });
-        // Auto-refill crates every 2 minutes
-        function autoRefillCrates() {
-            const additionalCrates = Math.floor(Math.random() * 3) + 1; // 1-3 crates
-            for (let i = 0; i < additionalCrates; i++) {
-                const crateType = getRandomCrateType();
-                inventoryCrates[crateType]++;
-            }
-            
-            // Show notification
-            notifCount.textContent = additionalCrates;
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-            
-            updateUI();
-            renderCrates();
-        }
-        // Set up auto-refill every 2 minutes (120000 ms)
-        setInterval(autoRefillCrates, 120000);
-        // Event listeners
-        openBtn.addEventListener('click', openCrate);
-        closeResult.addEventListener('click', closeResultModal);
-        overlay.addEventListener('click', closeResultModal);
-        // Initialize
-        updateUI();
-        renderSkins();
-        renderCrates();
-    </script>
-</body>
-</html>
-HTMLEOF
-$ cat > /workspace/index.html << 'HTMLEOF'
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Игра - Открытие ящиков</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #e94560;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #a0a0a0;
-            font-size: 1.1rem;
-        }
-        /* Balance and Crates Display */
-        .game-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px 25px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-        }
-        .balance-display {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .balance-icon {
-            font-size: 1.5rem;
-        }
-        .balance-amount {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2ecc71;
-        }
-        .crates-display {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .crate-count {
-            background: rgba(233, 69, 96, 0.3);
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 1rem;
-        }
-        .crate-count span {
-            font-weight: bold;
-            color: #e94560;
-            font-size: 1.2rem;
-        }
-        .buy-crates-btn {
-            background: linear-gradient(145deg, #2ecc71, #27ae60);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        .buy-crates-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
-        }
-        /* Main Game Area */
-        .game-area {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 50vh;
-            position: relative;
-            margin-top: 50px;
+            border-bottom: 4px solid #95a5a6;
         }
-        .crate-container {
-            position: relative;
-            margin-bottom: 30px;
+        .roulette-item.common { border-color: #95a5a6; }
+        .roulette-item.uncommon { border-color: #2ecc71; }
+        .roulette-item.rare { border-color: #3498db; }
+        .roulette-item.epic { border-color: #9b59b6; }
+        .roulette-item.legendary { border-color: #f39c12; }
+        .roulette-item-icon {
+            font-size: 40px;
         }
-        .crate {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(145deg, #f0932b, #eb4d4b);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(235, 77, 75, 0.4);
-            animation: float 3s ease-in-out infinite;
+        .roulette-item-name {
+            font-size: 10px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 90px;
+            margin-top: 5px;
         }
-        .crate:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(235, 77, 75, 0.6);
-        }
-        .crate.opening {
-            animation: shake 0.5s ease-in-out;
-        }
-        .crate.opened {
-            animation: openCrate 0.5s ease-in-out forwards;
+        .roulette-center-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #e94560;
+            z-index: 10;
         }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -1253,6 +519,11 @@ $ cat > /workspace/index.html << 'HTMLEOF'
             <div class="crate-container">
                 <div class="crate" id="mainCrate">📦</div>
             </div>
+            <!-- Roulette Container -->
+            <div class="roulette-container" id="rouletteContainer">
+                <div class="roulette-center-line"></div>
+                <div class="roulette-strip" id="rouletteStrip"></div>
+            </div>
             <button class="open-btn" id="openBtn">Открыть</button>
         </div>
         <!-- Statistics -->
@@ -1315,11 +586,20 @@ $ cat > /workspace/index.html << 'HTMLEOF'
             { name: "MP9 | Шторм", icon: "🔫", rarity: "common", weight: 70, price: 18 },
             { name: "SCAR-20 | Песочная сетка", icon: "🔫", rarity: "common", weight: 70, price: 12 },
             
+            // Uncommon 
+            { name: "Glock-18 | Вода", icon: "🔫", rarity: "uncommon", weight: 40, price: 50 },
+            { name: "SSG 08 | Контур", icon: "🔫", rarity: "uncommon", weight: 40, price: 45 },
+            
             // Rare (20% chance) - Medium price
             { name: "AK-47 | Красная линия", icon: "🔫", rarity: "rare", weight: 20, price: 150 },
             { name: "M4A4 | Азимов", icon: "🔫", rarity: "rare", weight: 20, price: 180 },
             { name: "AWP | Электрический ультра", icon: "🔫", rarity: "rare", weight: 20, price: 120 },
             { name: "USP-S | Коррозия", icon: "🔫", rarity: "rare", weight: 20, price: 140 },
+            
+            // Epic - High price
+            { name: "Desert Eagle | Пламя", icon: "🔫", rarity: "epic", weight: 15, price: 500 },
+            { name: "M4A1-S | Чистота", icon: "🔫", rarity: "epic", weight: 15, price: 600 },
+            { name: "Glock-18 | Гамма-волны", icon: "🔫", rarity: "epic", weight: 15, price: 550 },
             
             // Legendary (10% chance) - Expensive
             { name: "Karambit | Градиент", icon: "🔪", rarity: "legendary", weight: 10, price: 1500 },
@@ -1368,6 +648,8 @@ $ cat > /workspace/index.html << 'HTMLEOF'
         const buyCratesBtn = document.getElementById('buyCratesBtn');
         const notification = document.getElementById('notification');
         const notifCount = document.getElementById('notifCount');
+        const rouletteContainer = document.getElementById('rouletteContainer');
+        const rouletteStrip = document.getElementById('rouletteStrip');
         // Get total crates count
         function getTotalCrates() {
             return Object.values(inventoryCrates).reduce((sum, count) => sum + count, 0);
@@ -1385,7 +667,7 @@ $ cat > /workspace/index.html << 'HTMLEOF'
             document.getElementById('totalItems').textContent = stats.totalItems;
             document.getElementById('legendaryCount').textContent = stats.legendaryCount;
         }
-        // Weighted random selection
+        // Weighted random selection - for common cases (random from all rarities)
         function getRandomSkin() {
             const totalWeight = gameSkins.reduce((sum, skin) => sum + skin.weight, 0);
             let random = Math.random() * totalWeight;
@@ -1398,6 +680,28 @@ $ cat > /workspace/index.html << 'HTMLEOF'
             }
             return gameSkins[0];
         }
+        
+        // Get skin by specific rarity
+        function getSkinByRarity(rarity) {
+            const skinsOfRarity = gameSkins.filter(skin => skin.rarity === rarity);
+            if (skinsOfRarity.length === 0) return gameSkins[0];
+            const randomIndex = Math.floor(Math.random() * skinsOfRarity.length);
+            return skinsOfRarity[randomIndex];
+        }
+        
+        // Get skin based on crate type
+        function getSkinForCrate(crateType) {
+            if (crateType === 'epic') {
+                return getSkinByRarity('epic') || getSkinByRarity('rare');
+            } else if (crateType === 'rare') {
+                return getSkinByRarity('rare');
+            } else if (crateType === 'legendary') {
+                return getSkinByRarity('legendary');
+            } else {
+                // Common crate - random from all rarities
+                return getRandomSkin();
+            }
+        }
         // Get random crate type to add
         function getRandomCrateType() {
             const rand = Math.random();
@@ -1406,7 +710,7 @@ $ cat > /workspace/index.html << 'HTMLEOF'
             if (rand < 0.95) return 'epic';
             return 'legendary';
         }
-        // Open crate animation and logic
+        // Open crate animation and logic with roulette
         function openCrate() {
             if (isAnimating || getTotalCrates() === 0) return;
             
@@ -1427,33 +731,93 @@ $ cat > /workspace/index.html << 'HTMLEOF'
             updateUI();
             renderCrates();
             
-            // Animation
-            mainCrate.classList.add('opening');
+            // Hide crate, show roulette
+            mainCrate.style.display = 'none';
+            rouletteContainer.classList.add('active');
             
-            setTimeout(() => {
-                mainCrate.classList.remove('opening');
-                mainCrate.classList.add('opened');
-                
-                // Get random skin
-                const skin = getRandomSkin();
-                
-                // Add to inventory
-                inventorySkins.push(skin);
-                stats.totalOpened++;
-                stats.totalItems++;
-                if (skin.rarity === 'legendary') {
-                    stats.legendaryCount++;
+            // Get the winning skin
+            const winningSkin = getSkinForCrate(crateType);
+            
+            // Generate roulette items (50 items, winner at position 40)
+            const totalItems = 50;
+            const winnerIndex = 40;
+            const items = [];
+            
+            for (let i = 0; i < totalItems; i++) {
+                if (i === winnerIndex) {
+                    items.push(winningSkin);
+                } else {
+                    items.push(getRandomSkin());
                 }
-                
-                // Show result
-                setTimeout(() => {
-                    showResult(skin);
-                    mainCrate.classList.remove('opened');
-                    isAnimating = false;
-                    updateUI();
-                    renderSkins();
-                }, 500);
-            }, 2000);
+            }
+            
+            // Render roulette strip
+            renderRouletteStrip(items);
+            
+            // Start spinning after a short delay
+            setTimeout(() => {
+                spinRoulette(winnerIndex, () => {
+                    // Animation complete
+                    inventorySkins.push(winningSkin);
+                    stats.totalOpened++;
+                    stats.totalItems++;
+                    if (winningSkin.rarity === 'legendary') {
+                        stats.legendaryCount++;
+                    }
+                    
+                    // Show result modal
+                    setTimeout(() => {
+                        showResult(winningSkin);
+                        isAnimating = false;
+                        updateUI();
+                        renderSkins();
+                    }, 500);
+                });
+            }, 500);
+        }
+        
+        // Render roulette strip with items
+        function renderRouletteStrip(items) {
+            rouletteStrip.innerHTML = '';
+            items.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'roulette-item ' + item.rarity;
+                itemEl.innerHTML = `
+                    <div class="roulette-item-icon">${item.icon}</div>
+                    <div class="roulette-item-name">${item.name}</div>
+                `;
+                rouletteStrip.appendChild(itemEl);
+            });
+            
+            // Reset position
+            rouletteStrip.style.transform = 'translateX(-50%)';
+        }
+        
+        // Spin the roulette
+        function spinRoulette(winnerIndex, callback) {
+            const itemWidth = 110; // 100px width + 10px margin
+            const containerCenter = rouletteContainer.offsetWidth / 2;
+            const randomOffset = Math.floor(Math.random() * 60) - 30; // Random offset within item
+            
+            // Calculate target position to center the winner
+            const targetPosition = -(winnerIndex * itemWidth) + containerCenter - (itemWidth / 2) + randomOffset;
+            
+            // Animate
+            rouletteStrip.style.transition = 'transform 4s cubic-bezier(0.1, 0.9, 0.3, 1)';
+            rouletteStrip.style.transform = `translateX(${targetPosition}px)`;
+            
+            // Wait for animation to complete
+            setTimeout(() => {
+                callback();
+            }, 4000);
+        }
+        
+        // Reset game area after opening
+        function resetGameArea() {
+            mainCrate.style.display = 'flex';
+            rouletteContainer.classList.remove('active');
+            rouletteStrip.style.transition = 'none';
+            rouletteStrip.style.transform = 'translateX(-50%)';
         }
         // Show result modal
         function showResult(skin) {
@@ -1481,6 +845,7 @@ $ cat > /workspace/index.html << 'HTMLEOF'
         function closeResultModal() {
             resultDisplay.classList.remove('show');
             overlay.classList.remove('show');
+            resetGameArea();
         }
         // Render skins in inventory
         function renderSkins() {
