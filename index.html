@@ -797,7 +797,7 @@
         function spinRoulette(winnerIndex, callback) {
             const itemWidth = 110; // 100px width + 10px margin
             const containerCenter = rouletteContainer.offsetWidth / 2;
-            const randomOffset = Math.floor(Math.random() * 60) - 30; // Random offset within item
+            const randomOffset = Math.floor(Math.random() * 20) - 10; // Small random offset within item for realism
             
             // Calculate target position to center the winner
             // The strip starts at left: 50% with translateX(0), so the first item (index 0) is centered
