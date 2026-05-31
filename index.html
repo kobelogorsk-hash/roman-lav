@@ -147,11 +147,11 @@
             height: 100%;
             position: absolute;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(0);
             transition: transform 4s cubic-bezier(0.1, 0.9, 0.3, 1);
         }
         .roulette-item {
-            min-width: 100px;
+            width: 100px;
             height: 100px;
             margin: 10px 5px;
             background: rgba(255, 255, 255, 0.1);
@@ -789,8 +789,8 @@
                 rouletteStrip.appendChild(itemEl);
             });
             
-            // Reset position
-            rouletteStrip.style.transform = 'translateX(-50%)';
+            // Reset position - use px to match the spin animation
+            rouletteStrip.style.transform = 'translateX(0px)';
         }
         
         // Spin the roulette
@@ -800,7 +800,14 @@
             const randomOffset = Math.floor(Math.random() * 60) - 30; // Random offset within item
             
             // Calculate target position to center the winner
+            // The strip starts at left: 50% with translateX(0), so the first item (index 0) is centered
+            // We need to shift it by (winnerIndex * itemWidth) to bring the winner to center
+            // Plus half container width to account for the left: 50% positioning
+            // Minus half item width to center the item itself
             const targetPosition = -(winnerIndex * itemWidth) + containerCenter - (itemWidth / 2) + randomOffset;
+            
+            // Force reflow to ensure transition works
+            rouletteStrip.offsetHeight;
             
             // Animate
             rouletteStrip.style.transition = 'transform 4s cubic-bezier(0.1, 0.9, 0.3, 1)';
@@ -817,7 +824,7 @@
             mainCrate.style.display = 'flex';
             rouletteContainer.classList.remove('active');
             rouletteStrip.style.transition = 'none';
-            rouletteStrip.style.transform = 'translateX(-50%)';
+            rouletteStrip.style.transform = 'translateX(0px)';
         }
         // Show result modal
         function showResult(skin) {
