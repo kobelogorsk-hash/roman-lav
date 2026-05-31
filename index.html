@@ -667,18 +667,30 @@
             document.getElementById('totalItems').textContent = stats.totalItems;
             document.getElementById('legendaryCount').textContent = stats.legendaryCount;
         }
-        // Weighted random selection - for common cases (random from all rarities)
-        function getRandomSkin() {
-            const totalWeight = gameSkins.reduce((sum, skin) => sum + skin.weight, 0);
-            let random = Math.random() * totalWeight;
+        // Обновленная логика выпадения предметов с чистыми процентами
+        const rarityChances = {
+            common: 50,      // 50% шанс
+            uncommon: 25,    // 25% шанс
+            rare: 15,        // 15% шанс
+            epic: 8,         // 8% шанс
+            legendary: 2     // 2% шанс
+        };
+        
+        // Получение случайного скина на основе шансов редкости
+        function getRandomSkinByChance() {
+            const rand = Math.random() * 100;
+            let cumulative = 0;
+            let selectedRarity = 'common';
             
-            for (const skin of gameSkins) {
-                if (random < skin.weight) {
-                    return skin;
+            for (const [rarity, chance] of Object.entries(rarityChances)) {
+                cumulative += chance;
+                if (rand < cumulative) {
+                    selectedRarity = rarity;
+                    break;
                 }
-                random -= skin.weight;
             }
-            return gameSkins[0];
+            
+            return getSkinByRarity(selectedRarity);
         }
         
         // Get skin by specific rarity
@@ -698,8 +710,8 @@
             } else if (crateType === 'legendary') {
                 return getSkinByRarity('legendary');
             } else {
-                // Common crate - random from all rarities
-                return getRandomSkin();
+                // Common crate - используем новую систему шансов
+                return getRandomSkinByChance();
             }
         }
         // Get random crate type to add
@@ -710,7 +722,7 @@
             if (rand < 0.95) return 'epic';
             return 'legendary';
         }
-        // Open crate animation and logic with roulette
+        // Открытие кейса с рулеткой - победитель определяется в конце анимации
         function openCrate() {
             if (isAnimating || getTotalCrates() === 0) return;
             
@@ -735,20 +747,12 @@
             mainCrate.style.display = 'none';
             rouletteContainer.classList.add('active');
             
-            // Get the winning skin
-            const winningSkin = getSkinForCrate(crateType);
-            
-            // Generate roulette items (50 items, winner at position 40)
+            // Генерируем случайные предметы для рулетки (победитель будет определен позже)
             const totalItems = 50;
-            const winnerIndex = 40;
             const items = [];
             
             for (let i = 0; i < totalItems; i++) {
-                if (i === winnerIndex) {
-                    items.push(winningSkin);
-                } else {
-                    items.push(getRandomSkin());
-                }
+                items.push(getRandomSkinByChance());
             }
             
             // Render roulette strip
@@ -756,8 +760,24 @@
             
             // Start spinning after a short delay
             setTimeout(() => {
-                spinRoulette(winnerIndex, () => {
-                    // Animation complete
+                spinRoulette(() => {
+                    // Анимация завершена - теперь определяем победителя!
+                    const winningSkin = getSkinForCrate(crateType);
+                    
+                    // Обновляем последний элемент на победителя
+                    items[items.length - 1] = winningSkin;
+                    
+                    // Перерисовываем последний элемент
+                    const lastItemEl = rouletteStrip.lastElementChild;
+                    if (lastItemEl) {
+                        lastItemEl.className = 'roulette-item ' + winningSkin.rarity;
+                        lastItemEl.innerHTML = `
+                            <div class="roulette-item-icon">${winningSkin.icon}</div>
+                            <div class="roulette-item-name">${winningSkin.name}</div>
+                        `;
+                    }
+                    
+                    // Добавляем предмет в инвентарь
                     inventorySkins.push(winningSkin);
                     stats.totalOpened++;
                     stats.totalItems++;
@@ -793,11 +813,14 @@
             rouletteStrip.style.transform = 'translateX(0px)';
         }
         
-        // Spin the roulette
-        function spinRoulette(winnerIndex, callback) {
+        // Spin the roulette - останавливаемся на последнем элементе
+        function spinRoulette(callback) {
             const itemWidth = 110; // 100px width + 10px margin
             const containerCenter = rouletteContainer.offsetWidth / 2;
             const randomOffset = Math.floor(Math.random() * 20) - 10; // Small random offset within item for realism
+            
+            // Останавливаемся на последнем элементе (индекс 49)
+            const winnerIndex = 49;
             
             // Calculate target position to center the winner
             // The strip starts at left: 50% with translateX(0), so the first item (index 0) is centered
